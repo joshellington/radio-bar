@@ -77,6 +77,11 @@ div.stations {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 15px 15px 5px;
+
+  &::after {
+    content: "";
+    flex: auto;
+  }
 }
 
 div.controls {
@@ -85,10 +90,11 @@ div.controls {
   right: 0;
   z-index: 10;
   cursor: pointer;
-  padding: 15px 3px 0 0;
+  padding: 15px 3px 15px 0;
 
   button {
     font-size: 12px;
+    display: inline-block;
   }
 }
 
@@ -121,5 +127,9 @@ button {
 
   &:hover:not(.active) {
     border: 1px solid #333;
+  }
+
+  &.quit-app {
+    font-size: 12px;
   }
 }
