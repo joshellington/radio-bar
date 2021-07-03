@@ -18,24 +18,32 @@ module.exports = {
       }
     },
     {
-      test: /\.sass|scss$/,
+      test: /\.s[ac]ss$/i,
+      // use: [
+      //   'style-loader',
+      //   {
+      //     loader: 'css-loader',
+      //     options: {
+      //       modules: {
+      //         localIdentName: '[local]--[hash:base64:5]',
+      //       },
+      //     },
+      //   },
+      //   'resolve-url-loader',
+      //   {
+      //     loader: 'sass-loader',
+      //     options: {
+      //       sourceMap: true,
+      //     },
+      //   },
+      // ],
       use: [
-        'style-loader',
-        {
-          loader: 'css-loader',
-          options: {
-            modules: {
-              localIdentName: '[local]--[hash:base64:5]',
-            },
-          },
-        },
-        'resolve-url-loader',
-        {
-          loader: 'sass-loader',
-          options: {
-            sourceMap: true,
-          },
-        },
+        // Creates `style` nodes from JS strings
+        "style-loader",
+        // Translates CSS into CommonJS
+        "css-loader",
+        // Compiles Sass to CSS
+        "sass-loader",
       ],
     },
     {

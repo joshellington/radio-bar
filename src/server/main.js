@@ -1,21 +1,22 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { app, BrowserWindow, globalShortcut } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron');
 const { is } = require('electron-util');
-
+const { menubar } = require('menubar');
 const path = require('path');
 
-const createMainWindow = () => {
-  const mainWindow = new BrowserWindow({
-    backgroundColor: '#fff',
-    width: 500,
-    height: 350,
-    webPreferences: {
-      devTools: is.development,
-      nodeIntegration: true,
-      backgroundThrottling: false,
-      contextIsolation: false,
-    }
-  });
+const createMainWindow = (mb) => {
+  // const mainWindow = new BrowserWindow({
+  //   backgroundColor: '#fff',
+  //   width: 500,
+  //   height: 350,
+  //   webPreferences: {
+  //     devTools: is.development,
+  //     nodeIntegration: true,
+  //     backgroundThrottling: false,
+  //     contextIsolation: false,
+  //   }
+  // });
+  const mainWindow = mb.window;
 
   const playPauseShortcut = globalShortcut.register('mediaplaypause', function () {
     console.log('mediaplaypause pressed');
@@ -27,14 +28,52 @@ const createMainWindow = () => {
     console.log('mediaplaypause registration bound!');
   }
 
-  if (is.development) {
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
-    mainWindow.loadURL('http://localhost:3000');
-  } else {
-    mainWindow.loadURL(`file://${path.join(__dirname, '../../build/index.html')}`);
+  const nextTrackShortcut = globalShortcut.register('medianexttrack', function () {
+    console.log('medianexttrack pressed');
+    mainWindow.webContents.send('media', 'next');
+  });
+  if (!nextTrackShortcut) {
+    console.error('medianexttrack registration failed');
   }
+
+  ipcMain.on('resize', (e, data) => {
+    // console.log(e, data);
+    mb.window.setSize(400, data);
+  });
+
+  mb.on('after-create-window', () => {
+    if (is.development) {
+      mb.window.openDevTools({ mode: 'detach' });
+      // mainWindow.loadURL('http://localhost:3000');
+    } else {
+      // mainWindow.loadURL(`file://${path.join(__dirname, '../../build/index.html')}`);
+    }
+  })
 };
 
 app.on('ready', () => {
-  createMainWindow();
+  let index = `file://${path.join(__dirname, '../../build/index.html')}`
+  if (is.development) {
+    index = 'http://localhost:3000'
+  }
+  const mb = menubar({
+    icon: `./IconTemplate.png`,
+    index: index,
+    browserWindow: {
+      resizable: false,
+      height: 300,
+      transparent: true,
+      alwaysOnTop: is.development ? true : false,
+      webPreferences: {
+        devTools: is.development,
+        nodeIntegration: true,
+        backgroundThrottling: false,
+        contextIsolation: false,
+      },
+    },
+  });
+
+  mb.on('ready', () => {
+    createMainWindow(mb);
+  });
 });

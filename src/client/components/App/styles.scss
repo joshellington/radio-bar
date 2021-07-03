@@ -1,5 +1,125 @@
 body {
-  background: black;
   color: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 12px 0 0;
+  position: relative;
+  cursor: default;
+  user-select: none;
+
+  &:before {
+    content: '';
+    height: 0;
+    width: 0;
+    border-width: 0 8px 12px 8px;
+    border-style: solid;
+    border-color: transparent transparent #222 transparent;
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+main {
+  background: black;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+h3 {
+  font-size: 14px;
+}
+
+a {
+  color: white;
+}
+
+div.loading {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 12px);
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 14px;
+  z-index: 100;
+}
+
+div.now-playing {
+  background: #222;
+  padding: 15px;
+
+  h2 {
+    padding-bottom: 5px;
+  }
+}
+
+div.stations {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 15px 15px 5px;
+}
+
+div.controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  cursor: pointer;
+  padding: 15px 3px 0 0;
+
+  button {
+    font-size: 12px;
+  }
+}
+
+button {
+  display: block;
+  outline: 0;
+  border: 1px solid transparent;
+  color: white;
+  background: none;
+  font-size: 14px;
+  padding: 5px 7px;
+  margin: 0 0 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  font-family: -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
+
+  &.active {
+    border: 1px solid white;
+  }
+
+  &:hover:not(.active) {
+    border: 1px solid #333;
+  }
 }
