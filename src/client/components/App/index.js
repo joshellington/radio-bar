@@ -224,7 +224,11 @@ const App = () => {
               {currentStation?.name}
             </a>
           </h2>
-          <h3>{nowPlaying}</h3>
+          <h3>
+            <a href={`https://www.google.com/search?q=${nowPlaying}`} target="_blank">
+              {nowPlaying}
+            </a>
+          </h3>
         </div>
       )}
 
